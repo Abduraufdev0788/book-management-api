@@ -7,3 +7,5 @@ class BookBase(BaseModel):
     genre: str
     year: int
     rating: float
+    class Config:
+        orm_mode = True
