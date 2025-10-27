@@ -64,8 +64,10 @@ async def search_books(query: str, db: Session = Depends(get_db)):
             Book.author.ilike(f"%{query}%")
         )
     ).all()
+
     if not books:
         raise HTTPException(status_code=404, detail="Hech qanday kitob topilmadi")
     return books
+
 
 

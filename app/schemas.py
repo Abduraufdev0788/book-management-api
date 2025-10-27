@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from pydantic import Field
 
 class BookBase(BaseModel):
     id: int
@@ -6,7 +7,7 @@ class BookBase(BaseModel):
     author: str
     genre: str
     year: int
-    rating: float
+    rating: float = Field(ge=1, le=5, description="Rating 1 dan 5 gacha bo'lishi kerak")
     class Config:
         orm_mode = True
 
@@ -15,4 +16,4 @@ class BookCreate(BaseModel):
     author: str
     genre: str
     year: int
-    rating: float
+    rating: float = Field(ge=1, le=5, description="Rating 1 dan 5 gacha bo'lishi kerak")
