@@ -9,3 +9,10 @@ class BookBase(BaseModel):
     rating: float
     class Config:
         orm_mode = True
+
+class BookCreate(BaseModel):
+    title: str
+    author: str
+    genre: str
+    year: int
+    rating: float

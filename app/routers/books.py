@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import or_
 from app.database import get_db
 from sqlalchemy.orm import Session
-from app.schemas import BookBase
+from app.schemas import BookBase, BookCreate
 from app.models import Book
 
 router = APIRouter(
@@ -25,8 +25,8 @@ async def get_book(book_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Kitob topilmadi")
     return book
 
-@router.post('', response_model=BookBase)
-async def create_book(book: BookBase, db: Session = Depends(get_db)):
+@router.post('', response_model=BookCreate)
+async def create_book(book: BookCreate, db: Session = Depends(get_db)):
     db_book = Book(**book.dict())
     db.add(db_book)
     db.commit()
@@ -62,9 +62,10 @@ async def search_books(query: str, db: Session = Depends(get_db)):
         or_(
             Book.title.ilike(f"%{query}%"),
             Book.author.ilike(f"%{query}%")
-            
         )
     ).all()
     if not books:
         raise HTTPException(status_code=404, detail="Hech qanday kitob topilmadi")
     return books
+
+
